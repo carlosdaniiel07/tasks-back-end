@@ -2,22 +2,25 @@ const AuthService = require('./../services/AuthService')
 
 module.exports = () => {
   return (req, res, next) => {
-    const authUrl = '/auth'
+    const publicUrls = [
+      '/auth',
+      '/sign-up'
+    ]
 
-    if (req.url !== authUrl) {
+    if (!publicUrls.includes(req.url)) {
       const token = req.headers.authorization
 
       if (!token) {
         return res.status(400).json({ message: 'No access token provided' })
       }
 
-      const { id: userId } = AuthService.getTokenData(token)
+      const tokenData = AuthService.getTokenData(token)
 
-      if (!userId) {
+      if (!tokenData) {
         return res.status(403).json({ message: 'Invalid credentials' })
       }
 
-      req.userId = userId
+      req.userId = tokenData.id
     }
 
     next()
