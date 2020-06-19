@@ -23,7 +23,10 @@ class AuthService {
 
   async auth(loginOrEmail, password) {
     const user = await knex('users')
-      .where({ login: loginOrEmail }).orWhere({ email: loginOrEmail }).andWhere({ active: true })
+      .where((query) => {
+        query.where({ login: loginOrEmail }).orWhere({ email: loginOrEmail })
+      })
+      .andWhere({ active: true })
       .first()
 
     if (user && bcrypt.compareSync(password, user.password)) {
