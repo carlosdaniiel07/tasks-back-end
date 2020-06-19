@@ -41,6 +41,20 @@ class AuthService {
 
     return null
   }
+
+  static getTokenData(headerToken) {
+    const token = headerToken.length >= 7 ? headerToken.substring(7, headerToken.length) : ''
+
+    try {
+      jwt.verify(token, 'my-temp-secret-key')
+      
+      const { id } = jwt.decode(token)
+      
+      return { id }
+    } catch (err) {
+      return null
+    }
+  }
 }
 
 module.exports = AuthService
