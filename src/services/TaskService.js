@@ -1,5 +1,6 @@
 const knex = require('./../database/connection')
 const uuid = require('uuid')
+const { ApiError } = require('./../middlewares/errorHandler')
 
 class TaskService {
   constructor() {
@@ -11,7 +12,13 @@ class TaskService {
   }
 
   async getById(id) {
-    return await knex('tasks').where({ id }).select('*').first()
+    const task = await knex('tasks').where({ id }).select('*').first()
+
+    if (!task) {
+      throw new ApiError(404, `Not found a task with id ${id}`)
+    }
+
+    return task
   }
 
   async save({ description, estimateDate, notify }) {
@@ -27,16 +34,28 @@ class TaskService {
   }
 
   async update(taskId, { description, estimateDate, notify, doneDate }) {
-    return (await knex('tasks').where({ id: taskId }).update({
+    const task = (await knex('tasks').where({ id: taskId }).update({
       description,
       estimate_date: estimateDate,
       notify,
       done_date: doneDate
     }, '*'))[0]
+    
+    if (!task) {
+      throw new ApiError(404, `Not found a task with id ${taskId}`)
+    }
+
+    return task
   }
 
   async delete(id) {
-    return (await knex('tasks').where({ id }).del('*'))[0]
+    const task = (await knex('tasks').where({ id }).del('*'))[0]
+
+    if (!task) {
+      throw new ApiError(404, `Not found a task with id ${id}`)
+    }
+
+    return task
   }
 }
 

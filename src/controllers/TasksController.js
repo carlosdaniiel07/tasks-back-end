@@ -11,15 +11,15 @@ class TasksController {
     return res.json(tasks)
   }
 
-  async show(req, res) {
+  async show(req, res, next) {
     const { id } = req.params
-    const task = await taskService.getById(id)
-
-    if (!task) {
-      return res.status(404).json({ message: `Not found a task with id ${id}` })
+    
+    try {
+      const task = await taskService.getById(id)
+      return res.json(task)
+    } catch (err) {
+      next(err)
     }
-
-    return res.json(task)
   }
 
   async save(req, res) {
@@ -27,26 +27,26 @@ class TasksController {
     return res.status(201).json(task)
   }
 
-  async update(req, res) {
+  async update(req, res, next) {
     const { id } = req.params
-    const task = await taskService.update(id, req.body)
-
-    if (!task) {
-      return res.status(404).json({ message: `Not found a task with id ${id}` })
+    
+    try {
+      const task = await taskService.update(id, req.body)
+      return res.json(task)
+    } catch (err) {
+      next(err)
     }
-
-    return res.json(task)
   }
 
-  async delete(req, res) {
+  async delete(req, res, next) {
     const { id } = req.params
-    const task = await taskService.delete(id)
-
-    if (!task) {
-      return res.status(404).json({ message: `Not found a task with id ${id}` })
+    
+    try {
+      const task = await taskService.delete(id)
+      return res.json({ success: true })
+    } catch(err) {
+      next(err)
     }
-
-    return res.json({ success: true })
   }
 }
 
