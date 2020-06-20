@@ -23,15 +23,15 @@ routes.get('/', (req, res) => {
 // /tasks
 routes.get('/tasks', tasksController.index)
 
-routes.get('/tasks/:id', requestValidator([
-  param('id').isUUID('4'),
-]), tasksController.show)
-
 routes.post('/tasks', requestValidator([
   body('description').notEmpty({ ignore_whitespace: true }).isLength({ min: 3, max: 200 }),
   body('estimateDate').optional({ nullable: true }).isISO8601(),
   body('notify').isBoolean(),
 ]), tasksController.save)
+
+routes.get('/tasks/:id', requestValidator([
+  param('id').isUUID('4'),
+]), tasksController.show)
 
 routes.put('/tasks/:id', requestValidator([
   body('description').notEmpty({ ignore_whitespace: true }).isLength({ min: 3, max: 200 }),
@@ -39,6 +39,10 @@ routes.put('/tasks/:id', requestValidator([
   body('doneDate').optional({ nullable: true }).isISO8601(),
   body('notify').isBoolean(),
 ]), tasksController.update)
+
+routes.put('/tasks/:id/done', requestValidator([
+  param('id').isUUID('4'),
+]), tasksController.markAsDone)
 
 routes.delete('/tasks/:id', requestValidator([
   param('id').isUUID(),

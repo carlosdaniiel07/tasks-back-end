@@ -57,6 +57,13 @@ class TaskService {
 
     return task
   }
+
+  async markAsDone(taskId) {
+    const task = await this.getById(taskId)
+    const doneDate = task.done_date ? null : new Date()
+
+    return (await knex('tasks').where({ id: taskId }).update({ done_date: doneDate }, '*'))[0]
+  }
 }
 
 module.exports = TaskService

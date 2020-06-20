@@ -48,6 +48,17 @@ class TasksController {
       next(err)
     }
   }
+
+  async markAsDone(req, res, next) {
+    const { id } = req.params
+
+    try {
+      const task = await taskService.markAsDone(id)
+      return res.json(task)
+    } catch (err) {
+      next(err)
+    }
+  }
 }
 
 module.exports = TasksController
