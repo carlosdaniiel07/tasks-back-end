@@ -7,8 +7,14 @@ class TaskService {
 
   }
 
-  async getAll() {
-    return await knex('tasks').select('*')
+  async getAll(minDate, maxDate) {
+    if (minDate && maxDate) {
+      return await knex('tasks').select('*')
+        .whereBetween('estimate_date', [minDate, maxDate]).orWhereNull('estimate_date')
+        .orderBy('created_at')
+    } else {
+      return await knex('tasks').select('*').orderBy('created_at')
+    }
   }
 
   async getById(id) {

@@ -1,5 +1,5 @@
 const express = require('express')
-const { body, param } = require('express-validator')
+const { body, param, query } = require('express-validator')
 
 const requestValidator = require('./middlewares/requestValidator')
 
@@ -21,7 +21,9 @@ routes.get('/', (req, res) => {
 })
 
 // /tasks
-routes.get('/tasks', tasksController.index)
+routes.get('/tasks', requestValidator([
+  query(['minDate', 'maxDate']).optional().isISO8601(),
+]), tasksController.index)
 
 routes.post('/tasks', requestValidator([
   body('description').notEmpty({ ignore_whitespace: true }).isLength({ min: 3, max: 200 }),
