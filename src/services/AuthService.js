@@ -2,6 +2,7 @@ const knex = require('./../database/connection')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const uuid = require('uuid')
+const { ApiError } = require('./../middlewares/errorHandler')
 
 class AuthService {
   constructor() {
@@ -9,7 +10,13 @@ class AuthService {
   }
 
   async createUser({ name, login, email, password }) {
-    const user = {
+    const user = await knex('users').where({ login }).orWhere({ email }).first()
+
+    if (user) {
+      throw new ApiError(400, 'Already exists a user with this login or email')
+    }
+
+    const newUser = {
       id: uuid.v4(),
       name,
       login,
@@ -18,7 +25,7 @@ class AuthService {
       active: true
     }
 
-    return (await knex('users').insert(user, '*'))[0]
+    return (await knex('users').insert(newUser, '*'))[0]
   }
 
   async auth(loginOrEmail, password) {
