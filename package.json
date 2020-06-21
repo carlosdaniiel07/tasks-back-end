@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "start": "node",
+    "start": "node src/server",
     "prestart": "npm run knex:run-migrations",
     "dev": "nodemon",
     "knex:run-migrations": "knex migrate:latest"
