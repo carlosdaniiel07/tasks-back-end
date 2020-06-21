@@ -5,7 +5,9 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node",
-    "dev": "nodemon"
+    "prestart": "npm run knex:run-migrations",
+    "dev": "nodemon",
+    "knex:run-migrations": "knex migrate:latest"
   },
   "engines": {
     "node": "10.16.1"
