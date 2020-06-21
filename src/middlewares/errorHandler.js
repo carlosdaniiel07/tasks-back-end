@@ -8,15 +8,13 @@ class ApiError extends Error{
 
 const errorHandler = () => {
   return (err, req, res, next) => {
-    const {statusCode, message} = err
+    const { statusCode, message } = err
 
     if (res.headersSent) {
       next(err)
     }
 
-    return res.status(statusCode).json({
-      message
-    })
+    return res.status(statusCode).json({ message })
   }
 }
 
@@ -24,4 +22,3 @@ module.exports = {
   ApiError,
   errorHandler
 }
-
