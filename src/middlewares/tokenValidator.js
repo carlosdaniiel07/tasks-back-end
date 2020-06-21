@@ -3,6 +3,7 @@ const AuthService = require('./../services/AuthService')
 module.exports = () => {
   return (req, res, next) => {
     const publicUrls = [
+      '/',
       '/auth',
       '/sign-up'
     ]
