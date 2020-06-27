@@ -13,7 +13,7 @@ class AuthService {
     const user = await knex('users').where({ login }).orWhere({ email }).first()
 
     if (user) {
-      throw new ApiError(400, 'Already exists a user with this login or email')
+      throw new ApiError(400, 'Já existe um usuário cadastrado com este login ou com este e-mail')
     }
 
     const newUser = {

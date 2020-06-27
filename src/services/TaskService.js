@@ -21,7 +21,7 @@ class TaskService {
     const task = await knex('tasks').where({ id }).select('*').first()
 
     if (!task) {
-      throw new ApiError(404, `Not found a task with id ${id}`)
+      throw new ApiError(404, 'Esta tarefa não foi encontrada')
     }
 
     return task
@@ -48,7 +48,7 @@ class TaskService {
     }, '*'))[0]
     
     if (!task) {
-      throw new ApiError(404, `Not found a task with id ${taskId}`)
+      throw new ApiError(404, 'Esta tarefa não foi encontrada')
     }
 
     return task
@@ -58,7 +58,7 @@ class TaskService {
     const task = (await knex('tasks').where({ id }).del('*'))[0]
 
     if (!task) {
-      throw new ApiError(404, `Not found a task with id ${id}`)
+      throw new ApiError(404, 'Esta tarefa não foi encontrada')
     }
 
     return task
