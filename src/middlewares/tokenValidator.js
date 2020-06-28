@@ -12,13 +12,13 @@ module.exports = () => {
       const token = req.headers.authorization
 
       if (!token) {
-        return res.status(401).json({ message: 'No access token provided' })
+        return res.status(401).json({ message: 'Não foi fornecido nenhum token no cabeçalho da requisição' })
       }
 
       const tokenData = AuthService.getTokenData(token)
 
       if (!tokenData) {
-        return res.status(401).json({ message: 'Invalid credentials' })
+        return res.status(401).json({ message: 'Token inválido ou já expirado' })
       }
 
       req.userId = tokenData.id

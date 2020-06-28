@@ -46,7 +46,7 @@ class AuthService {
       return { user: { id, name, login, email }, accessToken: `Bearer ${token}` }
     }
 
-    return null
+    throw new ApiError(401, 'Usuário ou senha incorretos')
   }
 
   static getTokenData(headerToken) {

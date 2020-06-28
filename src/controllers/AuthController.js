@@ -17,15 +17,15 @@ class AuthController {
     }
   }
 
-  async login(req, res) {
+  async login(req, res, next) {
     const { loginOrEmail, password } = req.body
-    const response = await authService.auth(loginOrEmail, password)
-
-    if (!response) {
-      return res.status(401).json({ message: 'Invalid credentials' })
+    
+    try {
+      const response = await authService.auth(loginOrEmail, password)
+      return res.json(response)
+    } catch (err) {
+      next(err)
     }
-
-    return res.json(response)
   }
 }
 
