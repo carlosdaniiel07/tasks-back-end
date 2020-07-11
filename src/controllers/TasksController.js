@@ -7,7 +7,7 @@ class TasksController {
   }
 
   async index(req, res) {
-    const {  maxDate } = req.query
+    const { maxDate } = req.query
     const tasks = await taskService.getAll(maxDate)
     return res.json(tasks)
   }
