@@ -7,10 +7,10 @@ class TaskService {
 
   }
 
-  async getAll(minDate, maxDate) {
-    if (minDate && maxDate) {
+  async getAll(maxDate) {
+    if (maxDate) {
       return await knex('tasks').select('*')
-        .whereBetween('estimate_date', [minDate, maxDate]).orWhereNull('estimate_date')
+        .where('estimate_date', '>=', maxDate).orWhereNull('estimate_date')
         .orderBy('created_at')
     } else {
       return await knex('tasks').select('*').orderBy('created_at')

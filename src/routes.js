@@ -22,7 +22,7 @@ routes.get('/', (req, res) => {
 
 // /tasks
 routes.get('/tasks', requestValidator([
-  query(['minDate', 'maxDate']).optional().isISO8601(),
+  query('maxDate').optional().isISO8601(),
 ]), tasksController.index)
 
 routes.post('/tasks', requestValidator([
