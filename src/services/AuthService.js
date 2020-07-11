@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const uuid = require('uuid')
 const { ApiError } = require('./../middlewares/errorHandler')
 
+const JWT_SECRET = process.env.JWT_SECRET || 'my-temp-secret-key'
 class AuthService {
   constructor() {
 
@@ -38,7 +39,7 @@ class AuthService {
 
     if (user && bcrypt.compareSync(password, user.password)) {
       const { id, name, login, email } = user
-      const token = jwt.sign({ id }, 'my-temp-secret-key', { expiresIn: '1h' })
+      const token = jwt.sign({ id }, JWT_SECRET, { expiresIn: '1h' })
 
       // update user's last login date
       await knex('users').where({ id }).update({ last_login: new Date() })
@@ -53,7 +54,7 @@ class AuthService {
     const token = headerToken.length >= 7 ? headerToken.substring(7, headerToken.length) : ''
 
     try {
-      jwt.verify(token, 'my-temp-secret-key')
+      jwt.verify(token, JWT_SECRET)
       
       const { id } = jwt.decode(token)
       
