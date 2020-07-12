@@ -7,6 +7,7 @@
     "start": "node src/server",
     "prestart": "npm run knex:run-migrations",
     "dev": "nodemon",
+    "test": "jest --runInBand --verbose",
     "knex:run-migrations": "knex migrate:latest"
   },
   "engines": {

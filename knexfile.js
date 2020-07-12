@@ -15,9 +15,14 @@ module.exports = {
     seeds: {}
   },
   test: {
-    client: 'sqlite3',
+    client: 'pg',
     connection: {
-      filename: path.resolve(__dirname, 'src', 'database', 'db_test.sqlite')
+      // host: '127.0.0.1',
+      // user: 'postgres',
+      // password: 'root',
+      // database: 'tasks_test',
+      connectionString: process.env.HEROKU_POSTGRESQL_MAROON_URL,
+      ssl: { rejectUnauthorized: false }
     },
     migrations: {
       directory: path.resolve(__dirname, 'src', 'database', 'migrations')
