@@ -8,10 +8,11 @@ class AuthController {
 
   async createUser(req, res, next) {
     try {
-      const user = await authService.createUser(req.body)
-      const { id, name, login, email } = user
+      // const user = await authService.createUser(req.body)
+      // const { id, name, login, email } = user
 
-      return res.status(201).json({ id, name, login, email })
+      // return res.status(201).json({ id, name, login, email })
+      return res.status(400).json({ message: 'Funcionalidade desativada temporariamente' })
     } catch(err) {
       next(err)
     }
