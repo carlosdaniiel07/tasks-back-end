@@ -11,9 +11,9 @@ class TaskService {
     if (maxDate) {
       return await knex('tasks').select('*')
         .where('estimate_date', '<=', maxDate).orWhereNull('estimate_date')
-        .orderBy('created_at')
+        .orderBy('estimate_date')
     } else {
-      return await knex('tasks').select('*').orderBy('created_at')
+      return await knex('tasks').select('*').orderBy('estimate_date')
     }
   }
 
