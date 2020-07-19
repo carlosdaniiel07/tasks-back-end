@@ -56,7 +56,7 @@ const auth = async (loginOrEmail, password, deviceToken) => {
   throw new ApiError(401, 'Usuário ou senha incorretos')
 }
 
-const getTokenData = async (headerToken) => {
+const getTokenData = headerToken => {
   const token = headerToken.length >= 7 ? headerToken.substring(7, headerToken.length) : ''
 
   try {
