@@ -1,4 +1,4 @@
-const AuthService = require('./../services/AuthService')
+const authService = require('./../services/auth')
 
 module.exports = () => {
   return (req, res, next) => {
@@ -15,7 +15,7 @@ module.exports = () => {
         return res.status(401).json({ message: 'Não foi fornecido nenhum token no cabeçalho da requisição' })
       }
 
-      const tokenData = AuthService.getTokenData(token)
+      const tokenData = authService.getTokenData(token)
 
       if (!tokenData) {
         return res.status(401).json({ message: 'Token inválido ou já expirado' })

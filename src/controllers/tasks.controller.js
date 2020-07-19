@@ -1,5 +1,4 @@
-const TaskService = require('../services/TaskService')
-const taskService = new TaskService()
+const taskService = require('../services/task')
 
 const index = async (req, res) => {
   const { maxDate } = req.query
