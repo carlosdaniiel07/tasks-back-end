@@ -14,7 +14,11 @@ const errorHandler = () => {
       next(err)
     }
 
-    return res.status(statusCode).json({ message })
+    if (statusCode) {
+      return res.status(statusCode).json({ message })
+    } else {
+      return res.status(500).json({ message: 'Ocorreu um erro desconhecido ao processar a sua requisição. Tente novamente mais tarde.' })
+    }
   }
 }
 

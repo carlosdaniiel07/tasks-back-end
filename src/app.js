@@ -1,5 +1,6 @@
 const express = require('express')
 const routes = require('./routes')
+const jobs = require('./jobs')
 
 const tokenValidator = require('./middlewares/tokenValidator')
 const { errorHandler } = require('./middlewares/errorHandler')
@@ -10,5 +11,8 @@ app.use(express.json())
 app.use(tokenValidator())
 app.use(routes)
 app.use(errorHandler())
+
+// jobs
+jobs.startAll()
 
 module.exports = app
