@@ -4,7 +4,8 @@ const authService = new AuthService()
 const createUser = async (req, res) => {
   // const user = await authService.createUser(req.body)
   // const { id, name, login, email } = user
-  // return res.status(201).json({ id, name, login, email })
+
+  // return { status: 201, data: { id, name, login, email } }
   return { status: 400, data: { message: 'Funcionalidade desativada temporariamente' } }
 }
 
