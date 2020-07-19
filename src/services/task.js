@@ -1,6 +1,8 @@
 const knex = require('../database/connection')
 const uuid = require('uuid')
+
 const { ApiError } = require('../middlewares/errorHandler')
+const dateUtils = require('./../utils/date')
 
 const getAll = async (maxDate, userId) => {
   if (maxDate) {
@@ -33,7 +35,7 @@ const save = async ({ description, estimateDate, notify }, userId) => {
   const task = {
     id: uuid.v4(),
     description,
-    estimate_date: estimateDate,
+    estimate_date: dateUtils.endOfDay(estimateDate),
     notify,
     created_at: new Date(),
     user_id: userId,
@@ -45,7 +47,7 @@ const save = async ({ description, estimateDate, notify }, userId) => {
 const update = async (taskId, { description, estimateDate, notify, doneDate }, userId) => {
   const task = (await knex('tasks').where({ id: taskId, user_id: userId }).update({
     description,
-    estimate_date: estimateDate,
+    estimate_date: dateUtils.endOfDay(estimateDate),
     notify,
     done_date: doneDate
   }, '*'))[0]
