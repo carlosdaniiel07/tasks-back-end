@@ -1,5 +1,4 @@
-const TaskService = require('../services/TaskService')
-const taskService = new TaskService()
+const taskService = require('../services/task')
 
 const index = async (req, res) => {
   const { maxDate } = req.query
@@ -29,7 +28,7 @@ const update = async (req, res) => {
 
 const remove = async (req, res) => {
   const { id } = req.params
-  const task = await taskService.delete(id, req.userId)
+  const task = await taskService.remove(id, req.userId)
   
   return { status: 200, data: { success: true } }
 }
