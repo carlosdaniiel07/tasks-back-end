@@ -29,7 +29,7 @@ class AuthService {
     return (await knex('users').insert(newUser, '*'))[0]
   }
 
-  async auth(loginOrEmail, password) {
+  async auth(loginOrEmail, password, deviceToken) {
     const user = await knex('users')
       .where((query) => {
         query.where({ login: loginOrEmail }).orWhere({ email: loginOrEmail })
@@ -41,8 +41,8 @@ class AuthService {
       const { id, name, login, email } = user
       const token = jwt.sign({ id }, JWT_SECRET, { expiresIn: '1h' })
 
-      // update user's last login date
-      await knex('users').where({ id }).update({ last_login: new Date() })
+      // update user's last login date and device token
+      await knex('users').where({ id }).update({ last_login: new Date(), device_token: deviceToken })
 
       return { user: { id, name, login, email }, accessToken: `Bearer ${token}` }
     }

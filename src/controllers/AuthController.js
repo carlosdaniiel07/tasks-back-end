@@ -19,10 +19,10 @@ class AuthController {
   }
 
   async login(req, res, next) {
-    const { loginOrEmail, password } = req.body
+    const { loginOrEmail, password, device_token: deviceToken } = req.body
     
     try {
-      const response = await authService.auth(loginOrEmail, password)
+      const response = await authService.auth(loginOrEmail, password, deviceToken)
       return res.json(response)
     } catch (err) {
       next(err)
