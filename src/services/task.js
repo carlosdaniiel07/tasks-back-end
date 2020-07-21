@@ -70,7 +70,7 @@ const remove = async (id, userId) => {
 }
 
 const markAsDone = async (taskId, userId) => {
-  const task = await this.getById(taskId, userId)
+  const task = await getById(taskId, userId)
   const doneDate = task.done_date ? null : new Date()
 
   return (await knex('tasks').where({ id: taskId, user_id: userId }).update({ done_date: doneDate }, '*'))[0]
