@@ -65,6 +65,23 @@ describe('test suite for /tasks endpoint', () => {
     expect(response.body).toHaveProperty('id')
     expect(response.body).toHaveProperty('description')
     expect(response.body).toHaveProperty('estimate_date')
+    expect(response.body.estimate_date).not.toBeNull()
+    expect(response.body).toHaveProperty('done_date')
+    expect(response.body).toHaveProperty('notify')
+    expect(response.body).toHaveProperty('created_at')
+  })
+
+  it('should mark a task as done and responds with a object', async () => {
+    const taskId = (await request(app).get('/tasks').set('Authorization', accessToken)).body[0].id
+    const response = await request(app).put(`/tasks/${taskId}/done`).set('Authorization', accessToken)
+
+    expect(response.status).toBe(200)
+
+    // expects object
+    expect(response.body).toBeInstanceOf(Object)
+    expect(response.body).toHaveProperty('id')
+    expect(response.body).toHaveProperty('description')
+    expect(response.body).toHaveProperty('estimate_date')
     expect(response.body).toHaveProperty('done_date')
     expect(response.body).toHaveProperty('notify')
     expect(response.body).toHaveProperty('created_at')
